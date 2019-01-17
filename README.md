@@ -10,3 +10,4 @@ Tools & Technologies used in this project:
 * Spring Framework (Boot, Security, Data JPA, and Data Neo4j)
 * PostgreSQL Server
 * Neo4j Graph Database
+* Python Jupyter Notebook (for data scrapping, feature suggestion & design)
