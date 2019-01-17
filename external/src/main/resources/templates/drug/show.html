@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="shortcut icon" type="image/png" th:href="@{/iconps.png}"/>
+    <title th:text="${drug.name + ' interactions'}">Drug's interactions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        #myInput {
+            background-position: 10px 12px; /* Position the search icon */
+            background-repeat: no-repeat; /* Do not repeat the icon image */
+            font-size: 16px; /* Increase font-size */
+            width: 50%;
+            padding: 12px 20px 12px 40px; /* Add some padding */
+            border: 1px solid #ddd; /* Add a grey border */
+            margin-bottom: 12px; /* Add some space below the input */
+        }
+
+        #myTable {
+            border-collapse: collapse; /* Collapse borders */
+            width: 100%; /* Full-width */
+            border: 1px solid #ddd; /* Add a grey border */
+            font-size: 18px; /* Increase font-size */
+        }
+
+        #myTable th, #myTable td {
+            text-align: left;
+            padding: 12px;
+        }
+
+        #myTable tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        #myTable tr.header, #myTable tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .button {
+            background-color: #98a8af;
+            border: none;
+            color: white;
+            padding: 15px 25px;
+            text-align: center;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: grey;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div th:if="${not #lists.isEmpty(drug.interactions)}">
+        <a class="button" th:href="${'/medicine/list/'}">Medicines' list</a>
+        <a class="button" th:href="${'/drug/list/'}">Drugs' list</a>&nbsp;&nbsp;
+        <input type="text" id="myInput" onkeyup="myFunction()" th:placeholder="${'Search for interaction names for ' + drug.name + ' ..'}">
+        <table id="myTable" class="table table-striped">
+            <tr class="header">
+                <th>Name</th>
+            </tr>
+            <tr th:each="drug : ${drug.interactions}">
+                <td th:text="${drug.name}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>

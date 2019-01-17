@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Drug's interactions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="http://d3js.org/d3.v3.js"></script>
+    <style>
+        nav ul{height: 84vh; width:100%;}
+        nav ul{overflow:hidden; overflow-y:scroll;}
+        .link { stroke: #ccc; }
+        .nodetext { pointer-events: none; font: 10px sans-serif; }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <center><strong>Drug's Interactions</strong></center>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <br>
+                        <center>
+                            Name: <strong class="form-control-static" th:text="${drug.name}">Drug Name</strong> -
+                            <a th:href="${'/drug/delete/' + drug.id}">Delete</a>
+                        </center>
+                    </div>
+                </div>
+                <br>
+                <span style="display: inline-block;">
+                    <nav id="tt">
+                        <ul>
+                            <th:block th:each="interaction : ${drug.interactions}">
+                                <li><a th:text="${interaction.name}" th:href="${'/drug/show/' + interaction.id}">View</a></li>
+                            </th:block>
+                        </ul>
+                    </nav>
+                </span>
+                <span id="toadd" style="display: inline-block;"></span>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    var width = window.innerWidth * 0.7,
+        height = document.getElementById("tt").offsetHeight
+
+    var vis = d3.select("#toadd").append("svg:svg")
+        .attr("width", width)
+        .attr("height", height)
+        .call(d3.behavior.zoom().on("zoom", function () {
+            d3.select("svg").attr("transform"," scale(" + d3.event.scale + ")")
+        }))
+        .append("g");
+
+    d3.json("/drug/json/" + /*[[${drug.id}]]*/ 'undefined', function(json) {
+        var force = self.force = d3.layout.force()
+            .nodes(json.nodes)
+            .links(json.links)
+            .gravity(0.05)
+            .distance(250)
+            .charge(-150)
+            .size([width, height])
+            .start();
+
+        var link = vis.selectAll("line.link")
+            .data(json.links)
+            .enter().append("svg:line")
+            .attr("class", "link")
+            .attr("x1", function(d) { return d.source.x; })
+            .attr("y1", function(d) { return d.source.y; })
+            .attr("x2", function(d) { return d.target.x; })
+            .attr("y2", function(d) { return d.target.y; });
+
+        var node_drag = d3.behavior.drag()
+            .on("dragstart", dragstart)
+            .on("drag", dragmove)
+            .on("dragend", dragend);
+
+        function dragstart(d, i) {
+            force.stop() // stops the force auto positioning before you start dragging
+        }
+
+        function dragmove(d, i) {
+            d.px += d3.event.dx;
+            d.py += d3.event.dy;
+            d.x += d3.event.dx;
+            d.y += d3.event.dy;
+            tick(); // this is the key to make it work together with updating both px,py,x,y on d !
+        }
+
+        function dragend(d, i) {
+            d.fixed = true; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
+            tick();
+            force.resume();
+        }
+
+
+        var node = vis.selectAll("g.node")
+            .data(json.nodes)
+            .enter().append("svg:g")
+            .attr("class", "node")
+            .call(node_drag);
+
+        node.append("svg:image")
+            .attr("class", "circle")
+            .attr("xlink:href", "https://www.shareicon.net/data/128x128/2016/05/11/763491_medical_512x512.png")
+            .attr("x", "-8px")
+            .attr("y", "-8px")
+            .attr("width", "20px")
+            .attr("height", "20px");
+
+        node.append("svg:text")
+            .attr("class", "nodetext")
+            .attr("dx", 20)
+            .attr("dy", ".5em")
+            .text(function(d) { return d.name });
+
+        force.on("tick", tick);
+
+        function tick() {
+            link.attr("x1", function(d) { return d.source.x; })
+                .attr("y1", function(d) { return d.source.y; })
+                .attr("x2", function(d) { return d.target.x; })
+                .attr("y2", function(d) { return d.target.y; });
+
+            node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+        };
+
+
+    });
+
+</script>
+</body>
+</html>

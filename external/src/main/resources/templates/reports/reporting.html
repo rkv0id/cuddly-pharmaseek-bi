@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="shortcut icon" type="image/png" th:href="@{/iconps.png}"/>
+    <meta charset="UTF-8">
+    <title>Manager Dashboard</title>
+    <style>
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        /* Style the buttons that are used to open the tab content */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        .tabcontent {
+            animation: fadeEffect 1s; /* Fading effect takes 1 second */
+        }
+
+        /* Go from zero to full opacity */
+        @keyframes fadeEffect {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+    </style>
+</head>
+<body>
+
+<!-- Tab links -->
+<div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Gross Profit</button>
+    <button class="tablinks" onclick="openCity(event, 'Japan')">Contribution Partitioning</button>
+    <button class="tablinks" onclick="openCity(event, 'Paris')">Inventory Details</button>
+    <button class="tablinks" onclick="openCity(event, 'Tunis')">Supplier Dependability</button>
+    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Critical Performance Indicators</button>
+</div>
+
+<!-- Tab content -->
+<div id="London" class="tabcontent">
+    <center>
+        <iframe width="100%" height="895px" src="https://app.powerbi.com/reportEmbed?reportId=7e7e9862-e1c0-4aa8-a605-d565509736ed&autoAuth=true&filterPaneEnabled=false" frameborder="0" allowFullScreen="true"></iframe>
+    </center>
+</div>
+
+<div id="Japan" class="tabcontent">
+    <center>
+        <iframe width="100%" height="895px" src="https://app.powerbi.com/reportEmbed?reportId=dbbaaf7c-1243-468a-9fad-2b58f97e1ef6&autoAuth=true&filterPaneEnabled=false" frameborder="0" allowFullScreen="true"></iframe>
+    </center>
+</div>
+
+<div id="Paris" class="tabcontent">
+    <center>
+        <iframe width="100%" height="895px" src="https://app.powerbi.com/view?r=eyJrIjoiN2EzZTJjYjctMDljNi00Njc4LTkxMmQtN2Y3MTkzMDZiM2YzIiwidCI6ImYwNjA4MDQxLTU1ZGMtNDJjNS1iY2FkLTUzNjIzZTFhY2FlNCIsImMiOjh9" frameborder="0" allowFullScreen="true"></iframe>
+    </center>
+</div>
+
+<div id="Tunis" class="tabcontent">
+    <center>
+        <iframe width="100%" height="895px" src="https://app.powerbi.com/view?r=eyJrIjoiYmI0MGEzMjYtOTA2MS00NDQzLThkZGYtMzY3NGRiODk5Yjk4IiwidCI6ImYwNjA4MDQxLTU1ZGMtNDJjNS1iY2FkLTUzNjIzZTFhY2FlNCIsImMiOjh9" frameborder="0" allowFullScreen="true"></iframe>
+    </center>
+</div>
+
+<div id="Tokyo" class="tabcontent">
+    <center>
+        <iframe width="100%" height="895px  " src="https://app.powerbi.com/view?r=eyJrIjoiMDhiYjY4NzgtNzI0Yy00NzIxLWJmMWUtMGMxYjIwN2FjODk0IiwidCI6ImYwNjA4MDQxLTU1ZGMtNDJjNS1iY2FkLTUzNjIzZTFhY2FlNCIsImMiOjh9" frameborder="0" allowFullScreen="true"></iframe>
+    </center>
+</div>
+
+<script>
+    function openCity(evt, cityName) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the current tab, and add an "active" class to the button that opened the tab
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+</script>
+
+<script>
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+</script>
+</body>
+</html>
