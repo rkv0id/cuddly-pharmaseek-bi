@@ -56,6 +56,9 @@
         <a class="button" th:href="${'/medicine/list/'}">Medicines' list</a>
         <a class="button" th:href="${'/drug/list/'}">Drugs' list</a>&nbsp;&nbsp;
         <input type="text" id="myInput" onkeyup="myFunction()" th:placeholder="${'Search for interaction names for ' + drug.name + ' ..'}">
+        <a th:href="${'/logout'}">
+            <img th:src="@{/iconlogout.png}" alt="Logout" align="right" height="50px">
+        </a>
         <table id="myTable" class="table table-striped">
             <tr class="header">
                 <th>Name</th>

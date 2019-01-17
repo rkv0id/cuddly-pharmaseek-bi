@@ -38,6 +38,11 @@ public class DrugController {
         return "drug/list";
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/list")
+    public String list(){
+        return "reports/allinone";
+    }
+
     @RequestMapping(method = RequestMethod.GET, path = "/medicine/list")
     public String listMedicines(Model model){
         model.addAttribute("ateliers", microserviceArticle.listeDesArticles());

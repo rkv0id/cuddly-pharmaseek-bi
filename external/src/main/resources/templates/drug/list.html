@@ -58,6 +58,9 @@
         <a class="button" th:href="${'/medicine/list/'}">Medicines' list</a>
         <a class="button" th:href="${'/drug/list/'}">Drugs' list</a>&nbsp;&nbsp;
         <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for drug names..">
+        <a th:href="${'/logout'}">
+            <img th:src="@{/iconlogout.png}" alt="Logout" align="right" height="50px">
+        </a>
         <table id="myTable" class="table table-striped">
             <tr class="header">
                 <th style="width:55%;">Name</th>
@@ -66,7 +69,7 @@
             </tr>
             <tr th:each="drug : ${drugs}">
                 <td th:text="${drug.name}"></td>
-                <td th:text="${drug.getCount()}"></td>
+                <td th:text="${drug.nb}"></td>
                 <td>
                     <a th:href="${'/drug/show/' + drug.id}">View</a> &nbsp;&nbsp;
                     <a th:href="${'/drug/delete/' + drug.id}">Delete</a>

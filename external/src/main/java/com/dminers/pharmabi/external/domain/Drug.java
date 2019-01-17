@@ -12,10 +12,22 @@ import java.util.Random;
 @NodeEntity(label = "Drug")
 public class Drug {
     private long id;
+    private int nb;
     private @Id String name;
 
     @Relationship(type = "INTERACTS_WITH", direction = "UNDIRECTED")
     private List<Drug> interactions = new ArrayList<>();
+
+    public Drug() {
+    }
+
+    public int getNb() {
+        return nb;
+    }
+
+    public void setNb(int nb) {
+        this.nb = nb;
+    }
 
     public long getId() {
         return id;
@@ -30,7 +42,7 @@ public class Drug {
     }
 
     public int getCount() {
-        return interactions.size();
+        return nb;
     }
 
     @Override
